@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>To Do Task Manager</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+
+  min-height:100vh;
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  overflow:hidden;
+
+  padding:40px;
+
+  position:relative;
+
+  background:
+  linear-gradient(
+    135deg,
+    #eef2ff,
+    #f8fafc,
+    #e0e7ff
+  );
+}
+
+body::before{
+
+  content:"";
+
+  position:absolute;
+
+  inset:0;
+
+  background:
+  radial-gradient(
+    circle at top left,
+    rgba(99,102,241,0.10),
+    transparent 35%
+  ),
+
+  radial-gradient(
+    circle at bottom right,
+    rgba(59,130,246,0.10),
+    transparent 35%
+  );
+}
+
+.left-panel{
+
+  position:absolute;
+
+  left:55px;
+
+  top:70px;
+
+  z-index:2;
+}
+
+.left-panel h1{
+
+  font-size:110px;
+
+  line-height:0.82;
+
+  font-weight:700;
+
+  color:#17396b;
+}
+
+.left-panel h1 span{
+
+  color:#356dff;
+}
+
+.left-panel p{
+
+  margin-top:22px;
+
+  font-size:24px;
+
+  line-height:1.6;
+
+  color:#4a5670;
+
+  font-weight:500;
+}
+
+.right-panel{
+
+  position:absolute;
+
+  right:60px;
+
+  top:120px;
+
+  text-align:center;
+
+  z-index:2;
+}
+
+.feature{
+
+  margin-bottom:55px;
+
+  color:#677489;
+
+  font-size:22px;
+
+  font-weight:600;
+}
+
+.main-card{
+
+  width:680px;
+
+  padding:40px;
+
+  border-radius:30px;
+
+  background:rgba(255,255,255,0.55);
+
+  backdrop-filter:blur(24px);
+
+  border:1px solid rgba(255,255,255,0.50);
+
+  box-shadow:
+  0 8px 25px rgba(15,23,42,0.10);
+
+  z-index:5;
+}
+
+.logo{
+
+  text-align:center;
+
+  font-size:50px;
+
+  margin-bottom:10px;
+}
+
+.main-card h2{
+
+  text-align:center;
+
+  font-size:58px;
+
+  color:#071739;
+
+  font-weight:700;
+}
+
+.subtitle{
+
+  text-align:center;
+
+  margin-top:10px;
+
+  color:#54627b;
+
+  font-size:22px;
+
+  margin-bottom:22px;
+}
+
+.line{
+
+  width:160px;
+
+  height:4px;
+
+  border-radius:20px;
+
+  margin:0 auto 38px;
+
+  background:
+  linear-gradient(
+    90deg,
+    #3b82f6,
+    #8b5cf6,
+    #1e3a8a
+  );
+}
+
+.input-area{
+
+  display:flex;
+
+  gap:18px;
+
+  margin-bottom:30px;
+}
+
+.input-area input{
+
+  flex:1;
+
+  border:none;
+
+  outline:none;
+
+  padding:22px;
+
+  border-radius:18px;
+
+  background:white;
+
+  font-size:18px;
+
+  color:#334155;
+
+  box-shadow:
+  0 4px 12px rgba(0,0,0,0.05);
+}
+
+.add-btn{
+
+  border:none;
+
+  padding:20px 32px;
+
+  border-radius:18px;
+
+  font-size:21px;
+
+  font-weight:600;
+
+  color:white;
+
+  cursor:pointer;
+
+  background:
+  linear-gradient(
+    135deg,
+    #3b82f6,
+    #4f46e5,
+    #172554
+  );
+
+  box-shadow:
+  0 10px 25px rgba(79,70,229,0.22);
+
+  transition:0.3s;
+}
+
+.add-btn:hover{
+
+  transform:translateY(-3px);
+}
+
+ul{
+  list-style:none;
+}
+
+li{
+
+  background:rgba(255,255,255,0.75);
+
+  padding:18px 20px;
+
+  border-radius:18px;
+
+  margin-bottom:16px;
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  border:1px solid rgba(255,255,255,0.45);
+
+  transition:0.3s;
+}
+
+li:hover{
+
+  transform:scale(1.01);
+}
+
+.task-title{
+
+  font-size:22px;
+
+  font-weight:500;
+
+  color:#0f172a;
+}
+
+.time{
+
+  margin-top:8px;
+
+  color:#64748b;
+
+  font-size:15px;
+}
+
+.delete-btn{
+
+  border:none;
+
+  background:rgba(37,99,235,0.12);
+
+  color:#2563eb;
+
+  padding:12px 18px;
+
+  border-radius:12px;
+
+  font-size:15px;
+
+  font-weight:600;
+
+  cursor:pointer;
+
+  transition:0.3s;
+}
+
+.delete-btn:hover{
+
+  background:#2563eb;
+
+  color:white;
+}
+
+@media(max-width:1450px){
+
+  .left-panel,
+  .right-panel{
+    display:none;
+  }
+}
+
+@media(max-width:850px){
+
+  .main-card{
+    width:100%;
+    padding:28px;
+  }
+
+  .main-card h2{
+    font-size:40px;
+  }
+
+  .input-area{
+    flex-direction:column;
+  }
+
+  .add-btn{
+    width:100%;
+  }
+
+  .task-title{
+    font-size:18px;
+  }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="left-panel">
+
+  <h1>
+    TO DO<br>
+    <span>TASK</span>
+  </h1>
+
+  <p>
+    Plan it.<br>
+    Do it.<br>
+    Achieve it.
+  </p>
+
+</div>
+
+<div class="right-panel">
+
+  <div class="feature">
+    ☁️<br>
+    CLOUD SYNC
+  </div>
+
+  <div class="feature">
+    ✔️<br>
+    ORGANIZE
+  </div>
+
+  <div class="feature">
+    🎯<br>
+    FOCUS
+  </div>
+
+</div>
+
+<div class="main-card">
+
+  <div class="logo">☁️</div>
+
+  <h2>Task Manager</h2>
+
+  <div class="subtitle">
+    Stay organized. Stay productive.
+  </div>
+
+  <div class="line"></div>
+
+  <div class="input-area">
+
+    <input
+      type="text"
+      id="task"
+      placeholder="Enter your to-do task..."
+    >
+
+    <button
+      class="add-btn"
+      onclick="addTask()"
+    >
+      + Add Task
+    </button>
+
+  </div>
+
+  <ul id="list"></ul>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+
+from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+
+import {
+
+  getFirestore,
+  addDoc,
+  collection,
+  getDocs,
+  deleteDoc,
+  doc
+
+}
+
+from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+
+  apiKey: "AIzaSyApZuoNX7hegkgVAUOJ17KnFd2nKSUWGMs",
+
+  authDomain: "task-manager-app-9cf70.firebaseapp.com",
+
+  projectId: "task-manager-app-9cf70",
+
+  storageBucket: "task-manager-app-9cf70.firebasestorage.app",
+
+  messagingSenderId: "777416368486",
+
+  appId: "1:777416368486:web:90247df3ef44bb173f28a7"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+async function addTask(){
+
+  const taskInput =
+  document.getElementById("task");
+
+  const task =
+  taskInput.value;
+
+  if(task === "") return;
+
+  const now = new Date();
+
+  await addDoc(collection(db,"tasks"),{
+
+    text: task,
+
+    time: now.toLocaleString()
+
+  });
+
+  taskInput.value = "";
+
+  loadTasks();
+}
+
+async function deleteTask(id){
+
+  await deleteDoc(doc(db,"tasks",id));
+
+  loadTasks();
+}
+
+async function loadTasks(){
+
+  const querySnapshot =
+  await getDocs(collection(db,"tasks"));
+
+  const list =
+  document.getElementById("list");
+
+  list.innerHTML = "";
+
+  querySnapshot.forEach((d)=>{
+
+    const data = d.data();
+
+    const li =
+    document.createElement("li");
+
+    li.innerHTML = `
+
+      <div>
+
+        <div class="task-title">
+          ${data.text}
+        </div>
+
+        <div class="time">
+          🕒 ${data.time}
+        </div>
+
+      </div>
+
+      <button
+        class="delete-btn"
+        onclick="deleteTask('${d.id}')"
+      >
+        Delete
+      </button>
+
+    `;
+
+    list.appendChild(li);
+
+  });
+
+}
+
+loadTasks();
+
+window.addTask = addTask;
+
+window.deleteTask = deleteTask;
+
+</script>
+
+</body>
+</html>
