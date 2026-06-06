@@ -497,10 +497,15 @@ body.dark .time{
         placeholder="Enter your task..."
       >
 
-      <input
-        type="date"
-        id="date"
-      >
+     <input
+  type="date"
+  id="date"
+>
+
+<input
+  type="time"
+  id="time"
+>
 
     </div>
 
@@ -576,7 +581,10 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
-
+if (Notification.permission !== "granted") {
+  Notification.requestPermission();
+}
+console.log(Notification.permission);
 async function addTask(){
 
   const task =
@@ -584,6 +592,9 @@ async function addTask(){
 
   const date =
   document.getElementById("date").value;
+  
+  const dueTime =
+  document.getElementById("time").value;
 
   const priority =
   document.getElementById("priority").value;
@@ -594,17 +605,21 @@ async function addTask(){
 
   await addDoc(collection(db,"tasks"),{
 
-    text: task,
+  text: task,
 
-    dueDate: date,
+  dueDate: date,
 
-    priority: priority,
+  dueTime: dueTime,
 
-    completed:false,
+  priority: priority,
 
-    time: now.toLocaleString()
+  completed:false,
 
-  });
+  reminded:false,
+
+  time: now.toLocaleString()
+
+});
 
   document.getElementById("task").value="";
 
@@ -683,8 +698,10 @@ async function loadTasks(){
           </div>
 
           <div class="time">
-            📅 Due: ${data.dueDate || "No date"}
-          </div>
+            📅 Due:
+               ${data.dueDate || "No date"}
+               ${data.dueTime || ""}
+            </div>
 
           <div class="priority ${data.priority}">
             ${data.priority.toUpperCase()}
@@ -726,6 +743,20 @@ async function loadTasks(){
   });
 
 }
+function testNotification(){
+
+  if(Notification.permission === "granted"){
+
+    new Notification(
+      "🔔 Task Manager",
+      {
+        body:"Notifications are working!"
+      }
+    );
+
+  }
+
+}
 
 function searchTasks(){
 
@@ -757,6 +788,7 @@ window.toggleTheme = function(){
 
 loadTasks();
 
+window.testNotification = testNotification;
 window.addTask=addTask;
 
 window.deleteTask=deleteTask;
