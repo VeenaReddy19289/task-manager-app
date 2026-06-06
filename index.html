@@ -543,7 +543,24 @@ body.dark .time{
 </div>
 
 <script type="module">
+function testNotification() {
 
+  if (Notification.permission === "granted") {
+
+    new Notification(
+      "🔔 Task Manager",
+      {
+        body: "Notifications are working!"
+      }
+    );
+
+  } else {
+
+    alert("Please allow notifications first.");
+
+  }
+
+}
 import { initializeApp }
 
 from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
@@ -743,21 +760,6 @@ async function loadTasks(){
   });
 
 }
-function testNotification(){
-
-  if(Notification.permission === "granted"){
-
-    new Notification(
-      "🔔 Task Manager",
-      {
-        body:"Notifications are working!"
-      }
-    );
-
-  }
-
-}
-
 function searchTasks(){
 
   const input =
