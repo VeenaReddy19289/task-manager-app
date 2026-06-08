@@ -502,10 +502,6 @@ body.dark .time{
   id="date"
 >
 
-<input
-  type="time"
-  id="time"
->
 
     </div>
 
@@ -543,24 +539,6 @@ body.dark .time{
 </div>
 
 <script type="module">
-function testNotification() {
-
-  if (Notification.permission === "granted") {
-
-    new Notification(
-      "🔔 Task Manager",
-      {
-        body: "Notifications are working!"
-      }
-    );
-
-  } else {
-
-    alert("Please allow notifications first.");
-
-  }
-
-}
 import { initializeApp }
 
 from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
@@ -714,12 +692,7 @@ async function loadTasks(){
             🕒 ${data.time}
           </div>
 
-          <div class="time">
-            📅 Due:
-               ${data.dueDate || "No date"}
-               ${data.dueTime || ""}
-            </div>
-
+          
           <div class="priority ${data.priority}">
             ${data.priority.toUpperCase()}
           </div>
@@ -790,7 +763,7 @@ window.toggleTheme = function(){
 
 loadTasks();
 
-window.testNotification = testNotification;
+
 window.addTask=addTask;
 
 window.deleteTask=deleteTask;
