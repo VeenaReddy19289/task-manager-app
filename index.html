@@ -497,11 +497,10 @@ body.dark .time{
         placeholder="Enter your task..."
       >
 
-     <input
-  type="date"
-  id="date"
->
-
+      <input
+        type="date"
+        id="date"
+      >
 
     </div>
 
@@ -539,6 +538,7 @@ body.dark .time{
 </div>
 
 <script type="module">
+
 import { initializeApp }
 
 from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
@@ -576,10 +576,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
-if (Notification.permission !== "granted") {
-  Notification.requestPermission();
-}
-console.log(Notification.permission);
+
 async function addTask(){
 
   const task =
@@ -587,9 +584,6 @@ async function addTask(){
 
   const date =
   document.getElementById("date").value;
-  
-  const dueTime =
-  document.getElementById("time").value;
 
   const priority =
   document.getElementById("priority").value;
@@ -600,21 +594,17 @@ async function addTask(){
 
   await addDoc(collection(db,"tasks"),{
 
-  text: task,
+    text: task,
 
-  dueDate: date,
+    dueDate: date,
 
-  dueTime: dueTime,
+    priority: priority,
 
-  priority: priority,
+    completed:false,
 
-  completed:false,
+    time: now.toLocaleString()
 
-  reminded:false,
-
-  time: now.toLocaleString()
-
-});
+  });
 
   document.getElementById("task").value="";
 
@@ -692,7 +682,10 @@ async function loadTasks(){
             🕒 ${data.time}
           </div>
 
-          
+          <div class="time">
+            📅 Due: ${data.dueDate || "No date"}
+          </div>
+
           <div class="priority ${data.priority}">
             ${data.priority.toUpperCase()}
           </div>
@@ -733,6 +726,7 @@ async function loadTasks(){
   });
 
 }
+
 function searchTasks(){
 
   const input =
@@ -762,7 +756,6 @@ window.toggleTheme = function(){
 };
 
 loadTasks();
-
 
 window.addTask=addTask;
 
